@@ -1,6 +1,7 @@
 package de.falk.battleships.configuration
 
-import de.falk.battleships.model.{Coordinate, InformationForShot}
+import de.falk.battleships.model.Coordinate
+import de.falk.battleships.model.InformationForShot
 
 sealed trait ShotStrategy
 

@@ -57,3 +57,20 @@ case class ComplexUpdatedValue(hitType: HitType, shipType: ShipType) extends Upd
   }
 }
 
+
+sealed trait HitType {
+  def displayName: String
+}
+
+case object NoHit extends HitType {
+  def displayName = "no hit"
+}
+
+case object PartialHit extends HitType {
+  def displayName = "partial hit"
+}
+
+case object FullHit extends HitType {
+  def displayName = "full hit"
+}
+

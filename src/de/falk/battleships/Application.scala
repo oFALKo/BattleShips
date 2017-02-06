@@ -19,10 +19,10 @@ object Application extends App {
     val gameAndShotResult = game.getShotPlayerTwo(shotCoordinate)
     val shotResult = gameAndShotResult._2
     val gameUpdatedOnce = gameAndShotResult._1
-    val gameUpdatedTwice = gameUpdatedOnce.insertShotResultOtherMapPlayerOne(shotCoordinate, shotResult, game.playerTwo.board.ownShipsAndImpacts.ships)
+    val gameUpdatedTwice = gameUpdatedOnce.insertShotResultOtherMapPlayerOne(shotCoordinate, shotResult, game.playerTwo.ownShipsAndImpacts.ships)
     showGame(gameUpdatedTwice)
     //    StdIn.readLine()
-    if (gameUpdatedTwice.playerTwo.board.ownShipsAndImpacts.allShipsSunk) {
+    if (gameUpdatedTwice.playerTwo.ownShipsAndImpacts.allShipsSunk) {
       println("Player: '" + gameUpdatedTwice.playerOne.name + "' won!")
       continue = false
     }
@@ -31,10 +31,10 @@ object Application extends App {
       val gameAndShotResultTwo = gameUpdatedTwice.getShotPlayerOne(shotCoordinateTwo)
       val shotResultTwo = gameAndShotResultTwo._2
       val gameUpdatedThrice = gameAndShotResultTwo._1
-      val gameUpdatedForth = gameUpdatedThrice.insertShotResultOtherMapPlayerTwo(shotCoordinateTwo, shotResultTwo, game.playerOne.board.ownShipsAndImpacts.ships)
+      val gameUpdatedForth = gameUpdatedThrice.insertShotResultOtherMapPlayerTwo(shotCoordinateTwo, shotResultTwo, game.playerOne.ownShipsAndImpacts.ships)
       showGame(gameUpdatedForth)
-      if (gameUpdatedForth.playerOne.board.ownShipsAndImpacts.allShipsSunk) {
-        println("Player: '" + gameUpdatedTwice.playerTwo.name + "' won!")
+      if (gameUpdatedForth.playerOne.ownShipsAndImpacts.allShipsSunk) {
+        println("Player: '" + gameUpdatedForth.playerTwo.name + "' won!")
         continue = false
       }
       //    StdIn.readLine()
@@ -58,14 +58,10 @@ object Application extends App {
     println("")
     println("Name player: " + player.name)
 
-    showBoard(player.board)
-  }
-
-  def showBoard(board: Board) : Unit = {
     for (dimensionDigits <- 0 until digitsDimension) {
-      showOwnMapLine(board.ownShipsAndImpacts, dimensionDigits)
+      showOwnMapLine(player.ownShipsAndImpacts, dimensionDigits)
       print("    ")
-      showOtherMapLine(board.otherShipsAndImpacts, dimensionDigits)
+      showOtherMapLine(player.otherShipsAndImpacts, dimensionDigits)
       println("")
     }
   }
@@ -142,13 +138,11 @@ object Application extends App {
   def initializeGame : Game = {
     val map1Player1 = placeAllShips(standardShipTypes)
     val map2Player1 = new OtherMap(lettersDimension, digitsDimension, initializeOtherMap(lettersDimension, digitsDimension))
-    val boardPlayer1 = new Board(map1Player1, map2Player1)
-    val player1 = new Player("player one", boardPlayer1, OnlyRandomOfNotShot)
+    val player1 = new Player("player one", map1Player1, map2Player1, OnlyRandomOfNotShot)
 
     val map1Player2 = placeAllShips(standardShipTypes)
     val map2Player2 = new OtherMap(lettersDimension, digitsDimension, initializeOtherMap(lettersDimension, digitsDimension))
-    val boardPlayer2 = new Board(map1Player2, map2Player2)
-    val player2 = new Player("player two", boardPlayer2, OnlyRandomOfNotShot)
+    val player2 = new Player("player two", map1Player2, map2Player2, OnlyRandomOfNotShot)
 
     new Game(player1, player2, 1)
   }

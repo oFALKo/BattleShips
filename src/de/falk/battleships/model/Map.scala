@@ -70,8 +70,6 @@ class OwnMap(override val dimensionLetters: Int, override val dimensionDigits: I
 
 class OtherMap(override val dimensionLetters: Int, override val dimensionDigits: Int,override  val impacts: List[OtherMapValue]) extends Map(dimensionLetters, dimensionDigits, impacts) {
 
-//  private var impacts: List[OtherMapValue] = fillMapWith(NotShot).asInstanceOf[List[OtherMapValue]]
-
   def coordinatesNotShotAndPartialHits : InformationForShot = {
     var coordinatesNotShot = List[Coordinate]()
     var coordinatesPartialHit = List[(Coordinate, ShipType)]()

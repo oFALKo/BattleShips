@@ -61,3 +61,48 @@ case class Ship(shipType: ShipType, coordinate: Coordinate, direction: Direction
   }
 
 }
+
+sealed trait ShipType {
+  def name : String
+  def length : Int
+}
+
+case object Torpedoboat extends ShipType {
+  def name = "torpedo boat"
+  def length = 1
+}
+case object Submarine extends ShipType {
+  def name = "submarine"
+  def length = 2
+}
+case object Destroyer extends ShipType {
+  def name = "destroyer"
+  def length = 3
+}
+case object Cruiser extends ShipType {
+  def name = "cruiser"
+  def length = 4
+}
+
+case object Battleship extends ShipType {
+  def name = "battleship"
+  def length = 5
+}
+
+
+sealed trait Direction
+
+case object North extends Direction
+case object East extends Direction
+case object South extends Direction
+case object West extends Direction
+
+object Direction {
+  def fromIntTo(i: Int) : Direction = i match {
+    case 0 => East
+    case 1 => South
+    case 2 => West
+    case _ => North
+  }
+}
+
