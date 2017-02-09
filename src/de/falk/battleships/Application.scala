@@ -96,7 +96,7 @@ object Application extends App {
 
     }
 
-    placeAllShipsRec(shipTypes, new OwnMap(lettersDimension, digitsDimension, List[Ship](), initializeOwnMap(lettersDimension, digitsDimension)))
+    placeAllShipsRec(shipTypes, new OwnMap(lettersDimension, digitsDimension, List[Ship](), initializeMap(lettersDimension, digitsDimension)))
   }
 
   def findCoordinatesShip(shipType: ShipType, map: OwnMap) : OwnMap = {
@@ -114,20 +114,14 @@ object Application extends App {
 
     var impactsChanged = map.impacts
     for (coordinate <- ship.coordinates) {
-      impactsChanged = impactsChanged.updated(Coordinate.toIndex(coordinate, map.dimensionLetters), ComplexInitializedValue(NoHit, ship.shipType))
+      impactsChanged = impactsChanged.updated(Coordinate.toIndex(coordinate, map.dimensionLetters), InitializedShip(NoHit, ship.shipType))
     }
     new OwnMap(map.dimensionLetters, map.dimensionDigits, map.ships :+ ship, impactsChanged)
   }
 
-  def initializeOwnMap(dimensionLetters: Int, dimensionDigits: Int) : List[OwnMapValue] = {
-    var result = List[OwnMapValue]()
-    for (i <- 0 until dimensionLetters * dimensionDigits) result = result :+ Empty
-    result
-  }
-
-  def initializeOtherMap(dimensionLetters: Int, dimensionDigits: Int) : List[OtherMapValue] = {
-    var result = List[OtherMapValue]()
-    for (i <- 0 until dimensionLetters * dimensionDigits) result = result :+ NotShot
+  def initializeMap(dimensionLetters: Int, dimensionDigits: Int) : List[FieldValue] = {
+    var result = List[FieldValue]()
+    for (i <- 0 until dimensionLetters * dimensionDigits) result = result :+ InitializedNotShot
     result
   }
 
@@ -137,11 +131,11 @@ object Application extends App {
 
   def initializeGame : Game = {
     val map1Player1 = placeAllShips(standardShipTypes)
-    val map2Player1 = new OtherMap(lettersDimension, digitsDimension, initializeOtherMap(lettersDimension, digitsDimension))
+    val map2Player1 = new OtherMap(lettersDimension, digitsDimension, initializeMap(lettersDimension, digitsDimension))
     val player1 = new Player("player one", map1Player1, map2Player1, OnlyRandomOfNotShot)
 
     val map1Player2 = placeAllShips(standardShipTypes)
-    val map2Player2 = new OtherMap(lettersDimension, digitsDimension, initializeOtherMap(lettersDimension, digitsDimension))
+    val map2Player2 = new OtherMap(lettersDimension, digitsDimension, initializeMap(lettersDimension, digitsDimension))
     val player2 = new Player("player two", map1Player2, map2Player2, OnlyRandomOfNotShot)
 
     new Game(player1, player2, 1)

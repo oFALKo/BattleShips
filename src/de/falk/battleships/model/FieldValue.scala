@@ -2,61 +2,30 @@ package de.falk.battleships.model
 
 sealed trait FieldValue {
   def sign : String
-  def updated : Boolean
-  def complex : Boolean
 }
 
-sealed trait InitializedValue extends FieldValue {
-  def updated = false
-}
+sealed trait InitalizedValue extends FieldValue
+sealed trait UpdatedValue extends FieldValue
 
-sealed trait UpdatedValue extends FieldValue {
-  def updated = true
-}
-
-sealed trait ShotResultValue extends FieldValue
-
-sealed trait SimpleValue extends FieldValue {
-  def complex = false
-}
-sealed trait ComplexValue extends FieldValue {
-  def complex = true
-  def hitType: HitType
-  def shipType: ShipType
-}
-
-sealed trait InitializedSimpleValue extends InitializedValue with SimpleValue
-
-sealed trait OwnMapValue extends FieldValue
-sealed trait OtherMapValue extends FieldValue
-
-case object Empty extends InitializedSimpleValue with OwnMapValue {
+case object InitializedNotShot extends InitalizedValue {
   def sign = "-"
 }
 
-case object NotShot extends InitializedSimpleValue with OtherMapValue {
-  def sign = "-"
-}
-
-case class ComplexInitializedValue(hitType: HitType, shipType: ShipType) extends InitializedValue with ComplexValue with OwnMapValue {
+case class InitializedShip(hitType: HitType, shipType: ShipType) extends InitalizedValue {
   def sign = "#"
 }
 
-case object Miss extends UpdatedValue with SimpleValue with OtherMapValue with ShotResultValue {
+case object UpdatedShot extends UpdatedValue {
   def sign = "+"
 }
 
-case object Shot extends UpdatedValue with SimpleValue with OwnMapValue {
-  def sign = "+"
-}
-
-case class ComplexUpdatedValue(hitType: HitType, shipType: ShipType) extends UpdatedValue with ComplexValue with OwnMapValue with OtherMapValue with ShotResultValue {
+case class UpdatedShip(hitType: HitType, shipType: ShipType) extends UpdatedValue {
   def sign = hitType match {
+    case NoHit => "+"
     case PartialHit => "*"
     case FullHit => "X"
   }
 }
-
 
 sealed trait HitType {
   def displayName: String

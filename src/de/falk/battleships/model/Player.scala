@@ -8,12 +8,12 @@ class Player(val name: String, val ownShipsAndImpacts: OwnMap, val otherShipsAnd
     case OnlyRandomOfNotShot => ShotStrategy.onlyRandomOfNotShot(otherShipsAndImpacts.coordinatesNotShotAndPartialHits)
   }
 
-  def getShot(impact: Coordinate) : (Player, ShotResult) = {
+  def getShot(impact: Coordinate) : (Player, UpdatedValue) = {
     val result = ownShipsAndImpacts.getShot(impact)
     (new Player(name, result._1, otherShipsAndImpacts, shotStrategy), result._2)
   }
 
-  def insertShotResultOtherMap(shotCoordinate: Coordinate, shotResult: ShotResult, otherPlayerShips: List[Ship]) : Player =
+  def insertShotResultOtherMap(shotCoordinate: Coordinate, shotResult: UpdatedValue, otherPlayerShips: List[Ship]) : Player =
     new Player(name, ownShipsAndImpacts, otherShipsAndImpacts.insertShotResult(shotCoordinate, shotResult, otherPlayerShips), shotStrategy)
 
 }

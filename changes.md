@@ -1,6 +1,15 @@
 # Changes of BattleShips versions
 
-# v0.2.1 some simplifications: delete Board.scala, InformationForShot + ShotResult -> Types.scala, ShipType + Direction -> Ship.scala, HitType -> FieldValue.scala
+# v0.2.3
+    - remove abstract class Map
+    - remove Types.scala
+    - simplified FieldValue.scala
+
+# v0.2.2 some simplifications:
+    delete Board.scala, InformationForShot + ShotResult -> Types.scala, ShipType + Direction -> Ship.scala, HitType -> FieldValue.scala
+
+# v0.2.1 some simplifications:
+    delete Board.scala, InformationForShot + ShotResult -> Types.scala, ShipType + Direction -> Ship.scala, HitType -> FieldValue.scala
 
 # v0.2 modifications to 'Coordinate.scala'
 
